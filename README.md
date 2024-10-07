@@ -4,5 +4,4 @@ Um servidor simples de HTTP implemetado em Python utilizando Socket. Para estúd
 Como rodar:
 ```
 python3 servidor.py
-
 ```

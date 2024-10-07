@@ -70,7 +70,7 @@ class Request_Handler (Response_Header):
                         file = self.file_retrieve(PATH_NOT_FOUND)
                         return [str(self.file_header(404, PATH_NOT_FOUND, file)), file]
                 case "POST":
-                    if path == POST_PATH:
+                    if path == POST_PATH: # Simple implementation of Post Api to return Local Time
                         horario = str(email.utils.localtime())
                         horario = str({"horario local do servidor" : horario})
                         return [str(self.file_header(200, 'post.json', str(horario))), horario]

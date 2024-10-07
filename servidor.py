@@ -15,6 +15,7 @@ ALLOWED_PATHS = {
             "/static/media/video.webm" : "static/media/video.webm",
             "/static/media/file.pdf" : "static/media/file.pdf",
 }
+POST_PATH = "/horario"
 HEADER_SERVER_MESSAGE = "Server: Simple python web server using Sockets\n"
 CONSOLE_SERVER_RUNNING_MESSAGE = "HTTP Server running on http://{}:{}/".format(HOST,PORT)
 PATH_NOT_FOUND = "404.html"
@@ -69,7 +70,14 @@ class Request_Handler (Response_Header):
                         file = self.file_retrieve(PATH_NOT_FOUND)
                         return [str(self.file_header(404, PATH_NOT_FOUND, file)), file]
                 case "POST":
-                    return self.static_header(501) # To be Implemented
+                    if path == POST_PATH:
+                        horario = str(email.utils.localtime())
+                        horario = str({"horario local do servidor" : horario})
+                        return [str(self.file_header(200, 'post.json', str(horario))), horario]
+
+                    else:
+                        wrong_path = "The API is At /horario"
+                        return self.static_header(400) + HEADER_LINE_DELIMITER+ wrong_path
                 case _:
                     return self.static_header(405) # Method Not Allowed
         except:

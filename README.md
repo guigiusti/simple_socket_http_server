@@ -12,8 +12,8 @@ Os metodos implementados são GET e POST. Sendo o metódo POST apenas implementa
 
 O servidor está preparado para ser utilizado com arquivos de HTML, CSS, Javascript, Imagens, Áudios, Vídeos, PDFs, entre outros. A página index.html disponibilizada neste repositório, retorna o seguinte exemplo:
 
-![Exemplo 1]('static/example_1.png')
-![Exemplo 2]('static/example_2.png')
+![Exemplo 1](static/example_1.png)
+![Exemplo 2](static/example_2.png)
 
 ## Rodando a aplicação
 

@@ -1,7 +1,8 @@
 import socket, json, time, email.utils, http, mimetypes,sys
 
-HEADER_LINE_DELIMITER = '\r\n'
-HEADER_END_DELIMITER = '\r\n\r\n'
+
+HOST = 'localhost'
+PORT = 8080
 ALLOWED_PATHS = {
             "/" : "index.html",
             "/index" : "index.html",
@@ -9,13 +10,18 @@ ALLOWED_PATHS = {
             "/static/index.css": "static/index.css",
             "/static/index.js" : "static/index.js",
             "/static/favicon.png" : "static/favicon.png",
-            "/static/media/background.webp" : "static/media/background.webp"
+            "/static/media/background.webp" : "static/media/background.webp",
+            "/static/media/mario_themesong.aac" : "static/media/mario_themesong.aac",
+            "/static/media/video.webm" : "static/media/video.webm",
+            "/static/media/file.pdf" : "static/media/file.pdf",
 }
 HEADER_SERVER_MESSAGE = "Server: Simple python web server using Sockets\n"
+CONSOLE_SERVER_RUNNING_MESSAGE = "HTTP Server running on http://{}:{}/".format(HOST,PORT)
 PATH_NOT_FOUND = "404.html"
 INTERNAL_SERVER_ERROR = "500.html"
-HOST = 'localhost'
-PORT = 8080
+HEADER_LINE_DELIMITER = '\r\n'
+HEADER_END_DELIMITER = '\r\n\r\n'
+
 
 
 class Response_Header:
@@ -45,10 +51,19 @@ class Request_Handler (Response_Header):
                         mime = mimetypes.guess_type(file_path)[0].split("/")[0]
                         match mime:
                             case "image":
-                                image = self.image_retrieve(file_path)
+                                image = self.media_retrieve(file_path)
                                 return [str(self.file_header(200, file_path, image)), image]
                             case "text":
                                 file = self.file_retrieve(file_path)
+                                return [str(self.file_header(200, file_path, file)), file]
+                            case "audio":
+                                audio = self.media_retrieve(file_path)
+                                return [str(self.file_header(200, file_path, audio)), audio]
+                            case "video":
+                                video = self.media_retrieve(file_path)
+                                return [str(self.file_header(200, file_path, video)), video]
+                            case "application":
+                                file = self.media_retrieve(file_path)
                                 return [str(self.file_header(200, file_path, file)), file]
                     else:
                         file = self.file_retrieve(PATH_NOT_FOUND)
@@ -63,7 +78,7 @@ class Request_Handler (Response_Header):
     def file_retrieve(self, file):
         f = open(file, "r")
         return f.read()
-    def image_retrieve(self, file):
+    def media_retrieve(self, file):
         f = open(file, "rb")
         return f.read()
 
@@ -74,15 +89,14 @@ class Server (Request_Handler):
         try:
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         except socket.error as error:
-            print(error)
-            sys.exit
+            sys.exit(str(error))
     def run (self):
         try:
             server = self.server
             server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             server.bind((self.HOST, self.PORT))
             server.listen(5)
-            print("HTTP Server running on http://{}:{}/".format(self.HOST,self.PORT))
+            print(CONSOLE_SERVER_RUNNING_MESSAGE)
             try:
                 while True:
                     conn, addr = server.accept()
@@ -97,10 +111,9 @@ class Server (Request_Handler):
                     conn.close()
             except KeyboardInterrupt:
                 self.server.close()
-                print("Shutting down the server!")
+                sys.exit("Shutting down the server!")
         except OSError as error:
-            print(error)
-
+            sys.exit(str(error))
 
 if __name__ == "__main__":
     server = Server(HOST,PORT)

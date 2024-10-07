@@ -4,5 +4,15 @@ body {
     text-align: center;
 }
 img {
-    width: 30%;
+    width: 25%;
 }
+video {
+    width: 25%;
+}
+h2 a:link { text-decoration: underline; color: white;}
+    
+h2 a:visited { text-decoration: underline; color: white;}
+
+h2 a:hover { text-decoration: underline; color: white;}
+
+h2 a:active { text-decoration: underline; color: gray;}

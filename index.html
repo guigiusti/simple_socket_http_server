@@ -8,8 +8,16 @@
     </head>
     <body>
         <h1>O servidor HTTP está funcionando!</h1>
-        <img src="static/media/background.webp">
-        <h4 style="margin-top:0;">Exemplo de como transmitir uma imagem</h4>
+        <h4 style="margin-top:0;">Exemplo incluindo imagem, áudio e vídeo</h4>
+        <div>
+            <img src="static/media/background.webp">
+            <audio controls src="static/media/mario_themesong.aac"></audio>
+            <video controls src="static/media/video.webm"></video>
+        </div>
+        <div>
+            <h2 id="jsLoaded" style="font-size: 100%;"></h2>
+            <h2><a href="static/media/file.pdf">Exemplo de PDF</a></h2>
+        </div>
         <script src="static/index.js"></script>
     </body>
 </html>

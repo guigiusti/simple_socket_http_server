@@ -1,2 +1,2 @@
-# simple_socket_http_server
-A simple server implemented with Socket for self educational purposes
+# Simple Socket HTTP Server
+Um servidor simples de HTTP implemetado em Python utilizando Socket

@@ -1,7 +1,7 @@
 import socket, json, time, email.utils, http, mimetypes,sys
 
-CLRF = '\r\n'
-CLRF_HEADER_END = '\r\n\r\n'
+HEADER_LINE_DELIMITER = '\r\n'
+HEADER_END_DELIMITER = '\r\n\r\n'
 ALLOWED_PATHS = {
             "/" : "index.html",
             "/index" : "index.html",
@@ -22,13 +22,13 @@ class Response_Header:
     def __init__(self):
         pass
     def static_header (self, status_code):
-        protocol_status = str("HTTP/1.1 "+ str(status_code) + " " + http.HTTPStatus(status_code).phrase + CLRF)
-        date = str("Date: " + email.utils.formatdate(time.time(), usegmt=True) + CLRF)
+        protocol_status = str("HTTP/1.1 "+ str(status_code) + " " + http.HTTPStatus(status_code).phrase + HEADER_LINE_DELIMITER)
+        date = str("Date: " + email.utils.formatdate(time.time(), usegmt=True) + HEADER_LINE_DELIMITER)
         return str(protocol_status + HEADER_SERVER_MESSAGE + date)
     def file_header(self, status_code, file_name, content):
         static = self.static_header(status_code)
-        content_type = str("Content-Type: " + mimetypes.guess_type(file_name)[0] + CLRF)
-        content_length = str("Content-Length: " + str(len(content)) + CLRF_HEADER_END)
+        content_type = str("Content-Type: " + mimetypes.guess_type(file_name)[0] + HEADER_LINE_DELIMITER)
+        content_length = str("Content-Length: " + str(len(content)) + HEADER_END_DELIMITER)
         return str(static + content_type + content_length)
     
 class Request_Handler (Response_Header):
@@ -36,7 +36,7 @@ class Request_Handler (Response_Header):
         pass
     def handle(self, request):
         try:
-            method, path, protocol = request.split(CLRF)[0].split(" ")
+            method, path, protocol = request.split(HEADER_LINE_DELIMITER)[0].split(" ")
             print(method, path)
             match method:
                 case "GET":

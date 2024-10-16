@@ -43,7 +43,7 @@ Algumas opções deste servidor podem ser editadas diretamente no arquivo Python
 
 ### Configurando Host e Porta
 
-Para alterar o caminho qual o servidor escutará por requisições, basta alterar as constantes HOST e PORT. Lembrando que valores abaixo de 1000 requerem acesso de administrador (como as portas de HTTP e HTTPS padrões).
+Para alterar o caminho qual o servidor escutará por requisições, basta alterar as constantes HOST e PORT. Lembrando que valores abaixo de 1024 requerem acesso de administrador (como as portas de HTTP e HTTPS padrões).
 
 ### Configurando os Caminhos
 
